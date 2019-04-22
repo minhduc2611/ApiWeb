@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace dotnetangular
 {
@@ -25,6 +26,8 @@ namespace dotnetangular
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            //auto mapper
+            services.AddAutoMapper();
             // add service Dbcontext
             
             services.AddDbContext<MyDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyEStore")));
@@ -37,8 +40,9 @@ namespace dotnetangular
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,IMapper autoMapper)
         {
+             autoMapper.ConfigurationProvider.AssertConfigurationIsValid();
             if (env.IsDevelopment())
             {
 
